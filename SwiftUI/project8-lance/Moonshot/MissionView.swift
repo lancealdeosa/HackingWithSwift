@@ -37,26 +37,27 @@ struct MissionView: View {
                     }
                     .padding(.top)
                 
-                Rectangle()
-                    .frame(height: 2)
-                    .foregroundStyle(.lightBackground)
+                ThickDivider()
                     .padding(.vertical)
 
                 VStack(alignment: .leading) {
+                    Text("Mission Date")
+                        .font(.title2.bold())
+                        .padding(.bottom, 5)
+                    Text(mission.longLaunchDate)
+                        .padding(.bottom, 10)
+                    
                     Text("Mission Highlights")
                         .font(.title.bold())
                         .padding(.bottom, 5)
 
                     Text(mission.description)
                 }
-                .padding(.horizontal)
+                .padding([.horizontal, .bottom])
                 
-                Rectangle()
-                    .frame(height: 2)
-                    .foregroundStyle(.lightBackground)
-                    .padding(.top)
+                ThickDivider()
+                    .padding(.bottom)
             }
-            .padding(.bottom)
             
             Text("Crew")
                 .font(.title.bold())
@@ -68,24 +69,7 @@ struct MissionView: View {
                         NavigationLink {
                             AstronautView(astronaut: member.astronaut)
                         } label: {
-                            HStack {
-                                Image(member.astronaut.imageName)
-                                    .resizable()
-                                    .frame(width: 104, height: 72)
-                                    .clipShape(.capsule)
-                                    .overlay {
-                                        Capsule()
-                                            .stroke(.white, lineWidth: 1)
-                                    }
-                                
-                                VStack(alignment: .leading) {
-                                    Text(member.astronaut.name)
-                                        .foregroundStyle(.white)
-                                        .font(.headline)
-                                    Text(member.role)
-                                        .foregroundStyle(.white.opacity(0.5))
-                                }
-                            }
+                            AstronautCell(member: member)
                         }
 
                     }
@@ -99,9 +83,17 @@ struct MissionView: View {
     }
 }
 
+struct ThickDivider: View {
+    var body: some View {
+        Rectangle()
+            .frame(height: 2)
+            .foregroundStyle(.lightBackground)
+    }
+}
+
 #Preview {
     let missions: [Mission] = Bundle.main.decode(file: "missions.json")
     let astronauts: [String: Astronaut] = Bundle.main.decode(file: "astronauts.json")
-    return MissionView(mission: missions.first!, astronauts: astronauts)
+    return MissionView(mission: missions.first { $0.launchDate != nil }!, astronauts: astronauts)
         .preferredColorScheme(.dark)
 }
