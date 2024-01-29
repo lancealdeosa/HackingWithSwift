@@ -58,10 +58,10 @@ class Order: Codable {
     var zip = ""
     
     var hasValidAddress: Bool {
-        guard !name.isEmpty else { return false }
-        guard !streetAddress.isEmpty else { return false }
-        guard !city.isEmpty else { return false }
-        guard !zip.isEmpty else { return false }
+        guard !name.trimmingCharacters(in: .whitespaces).isEmpty else { return false }
+        guard !streetAddress.trimmingCharacters(in: .whitespaces).isEmpty else { return false }
+        guard !city.trimmingCharacters(in: .whitespaces).isEmpty else { return false }
+        guard !zip.trimmingCharacters(in: .whitespaces).isEmpty else { return false }
         
         return true
     }
