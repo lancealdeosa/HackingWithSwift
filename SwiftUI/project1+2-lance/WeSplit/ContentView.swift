@@ -21,13 +21,13 @@ struct ContentView: View {
   private var totalAmount: Double { checkAmount + tipAmount }
   private var amountPerPerson: Double { totalAmount / Double(numberOfPeople) }
   
-  private var currencyFormat: FloatingPointFormatStyle<Double>.Currency { .currency(code: Locale.current.currency?.identifier ?? "PHP") }
+  private var currencyFormat: FloatingPointFormatStyle<Double>.Currency { .currency(code: Locale.current.currency?.identifier ?? "USD") }
   
   var body: some View {
     NavigationView {
       Form {
         Section {
-          TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "PHP"))
+          TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
             .keyboardType(.decimalPad)
             .focused($isAmountFocused)
           Picker("Numer of People", selection: $numberOfPeopleIndex) {
@@ -61,7 +61,6 @@ struct ContentView: View {
           }
         }
       }
-      //            .navigationBarTitleDisplayMode(.inline)
     }
   }
 }
